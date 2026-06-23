@@ -10,7 +10,7 @@ function Login() {
   const loginUser = async () => {
     try {
       const response = await axios.post(
-        "http://https://helpdesk-ticket-system-se05.onrender.com/login",
+        "https://helpdesk-ticket-system-se05.onrender.com/login",
         {
           email,
           password

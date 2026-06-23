@@ -18,7 +18,7 @@ function Dashboard() {
   const loadTickets = async () => {
     try {
       const response = await axios.get(
-        "http://https://helpdesk-ticket-system-se05.onrender.com/tickets"
+        "https://helpdesk-ticket-system-se05.onrender.com/tickets"
       );
 
       setTickets(response.data);
@@ -44,7 +44,7 @@ function Dashboard() {
   const createTicket = async () => {
     try {
       const response = await axios.post(
-        "http://https://helpdesk-ticket-system-se05.onrender.com/tickets",
+        "https://helpdesk-ticket-system-se05.onrender.com/tickets",
         {
           title,
           description,
@@ -70,7 +70,7 @@ function Dashboard() {
   const deleteTicket = async (ticketId) => {
     try {
       await axios.delete(
-        `http://https://helpdesk-ticket-system-se05.onrender.com/tickets/${ticketId}`
+        `http://helpdesk-ticket-system-se05.onrender.com/tickets/${ticketId}`
       );
 
       loadTickets();
@@ -83,7 +83,7 @@ function Dashboard() {
   const updateStatus = async (ticketId, status) => {
   try {
     await axios.put(
-      `http://https://helpdesk-ticket-system-se05.onrender.com/tickets/${ticketId}`,
+      `http://helpdesk-ticket-system-se05.onrender.com/tickets/${ticketId}`,
       {
         status: status
       }
@@ -104,7 +104,7 @@ function Dashboard() {
   const loadStats = async () => {
   try {
     const response = await axios.get(
-      "http://https://helpdesk-ticket-system-se05.onrender.com/dashboard/stats"
+      "http://helpdesk-ticket-system-se05.onrender.com/dashboard/stats"
     );
 
     setStats(response.data);
