@@ -18,7 +18,7 @@ function Dashboard() {
   const loadTickets = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:8000/tickets"
+        "http://https://helpdesk-ticket-system-se05.onrender.com/tickets"
       );
 
       setTickets(response.data);
@@ -44,7 +44,7 @@ function Dashboard() {
   const createTicket = async () => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/tickets",
+        "http://https://helpdesk-ticket-system-se05.onrender.com/tickets",
         {
           title,
           description,
@@ -70,7 +70,7 @@ function Dashboard() {
   const deleteTicket = async (ticketId) => {
     try {
       await axios.delete(
-        `http://127.0.0.1:8000/tickets/${ticketId}`
+        `http://https://helpdesk-ticket-system-se05.onrender.com/tickets/${ticketId}`
       );
 
       loadTickets();
@@ -83,7 +83,7 @@ function Dashboard() {
   const updateStatus = async (ticketId, status) => {
   try {
     await axios.put(
-      `http://127.0.0.1:8000/tickets/${ticketId}`,
+      `http://https://helpdesk-ticket-system-se05.onrender.com/tickets/${ticketId}`,
       {
         status: status
       }
@@ -104,7 +104,7 @@ function Dashboard() {
   const loadStats = async () => {
   try {
     const response = await axios.get(
-      "http://127.0.0.1:8000/dashboard/stats"
+      "http://https://helpdesk-ticket-system-se05.onrender.com/dashboard/stats"
     );
 
     setStats(response.data);
