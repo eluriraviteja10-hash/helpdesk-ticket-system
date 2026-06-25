@@ -44,6 +44,7 @@ function Dashboard() {
 
         loadTickets();
         loadStats();
+        loadAgents();
 
         }, []);
 
@@ -135,6 +136,19 @@ function Dashboard() {
     console.log(error);
   }
   };
+
+    const loadAgents = async () => {
+    try {
+        const response = await axios.get(
+        "https://helpdesk-ticket-system-se05.onrender.com/assistants"
+        );
+
+        setAgents(response.data);
+
+    } catch (error) {
+        console.log(error);
+    }
+    };  
 
   return (
     <div className="container">
@@ -284,13 +298,18 @@ function Dashboard() {
                     }
                 >
 
-                <option value="">
-                    Select Assistant
-                </option>
+                    <option value="">
+                        Select Assistant
+                    </option>
 
-                <option value="2">
-                    Assistant
-                </option>
+                    {agents.map((agent) => (
+                    <option
+                        key={agent.id}
+                        value={agent.id}
+                    >
+                        {agent.name}
+                    </option>
+                    ))}
 
                 </select>
 
