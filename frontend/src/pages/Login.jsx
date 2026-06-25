@@ -7,38 +7,54 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const loginUser = async () => {
+    const loginUser = async () => {
     try {
-      const response = await axios.post(
+        const response = await axios.post(
         "https://helpdesk-ticket-system-se05.onrender.com/login",
         {
-          email,
-          password
+            email,
+            password
         }
-      );
+        );
 
-      alert(response.data.message);
+        if (response.data.message !== "Login successful") {
+        alert(response.data.message);
+        return;
+        }
 
-      localStorage.setItem(
+        localStorage.setItem(
         "user_id",
         response.data.user_id
-      );
+        );
 
-      localStorage.setItem(
+        localStorage.setItem(
         "role",
         response.data.role
-      );
+        );
+
         localStorage.setItem(
         "name",
         response.data.name
-        );      
-      navigate("/");
+        );
+
+        alert("Login successful");
+
+        // Role Based Navigation
+        if (response.data.role === "admin") {
+        navigate("/admin");
+        }
+        else if (response.data.role === "agent") {
+        navigate("/agent");
+        }
+        else {
+        navigate("/user");
+        }
 
     } catch (error) {
-      console.log(error);
-      alert("Login failed");
+        console.log(error);
+        alert("Login failed");
     }
-  };
+    };
 
   return (
     <div>

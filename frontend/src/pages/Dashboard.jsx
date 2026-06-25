@@ -5,8 +5,10 @@ import "../App.css";
 import { useNavigate } from "react-router-dom";
 
 
-function Dashboard() {
+function Dashboard() {  
   const userName = localStorage.getItem("name");
+  const role = localStorage.getItem("role");
+  const userId = localStorage.getItem("user_id");
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -14,6 +16,7 @@ function Dashboard() {
 
   const [tickets, setTickets] = useState([]);
   const [stats, setStats] = useState(null);
+  const [agents, setAgents] = useState([]);
 
   const loadTickets = async () => {
     try {
@@ -49,7 +52,7 @@ function Dashboard() {
           title,
           description,
           priority,
-          created_by: 1
+          created_by: userId
         }
       );
 
@@ -96,6 +99,22 @@ function Dashboard() {
     console.log(error);
   }
   };
+    const assignTicket = async (ticketId, assignedTo) => {
+    try {
+
+        await axios.put(
+        `https://helpdesk-ticket-system-se05.onrender.com/tickets/${ticketId}/assign`,
+        {
+            assigned_to: assignedTo
+        }
+        );
+
+        loadTickets();
+
+    } catch (error) {
+        console.log(error);
+    }
+    };
     const logout = () => {
     localStorage.clear();
     navigate("/login");
@@ -116,9 +135,9 @@ function Dashboard() {
 
   return (
     <div className="container">
-        <h2>
-        Welcome, {userName}
-        </h2>      
+    <h2>
+    Welcome, {userName} ({role})
+    </h2>    
 <div
   style={{
     display: "flex",
@@ -155,45 +174,51 @@ function Dashboard() {
       </div>
     )}
 
-      <div className="form-card">
-      <h2>Create Ticket</h2>
+    {role === "user" && (
+    <>
+        <div className="form-card">
+        <h2>Create Ticket</h2>
 
-      <input
-        type="text"
-        placeholder="Ticket Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+        <input
+            type="text"
+            placeholder="Ticket Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+        />
 
-      <br />
-      <br />
+        <br />
+        <br />
 
-      <textarea
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
+        <textarea
+            placeholder="Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+        />
 
-      <br />
-      <br />
+        <br />
+        <br />
 
-      <select
-        value={priority}
-        onChange={(e) => setPriority(e.target.value)}
-      >
-        <option>Low</option>
-        <option>Medium</option>
-        <option>High</option>
-      </select>
+        <select
+            value={priority}
+            onChange={(e) => setPriority(e.target.value)}
+        >
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+        </select>
 
-      <br />
-      <br />
+        <br />
+        <br />
 
-      <button onClick={createTicket}>
-        Create Ticket
-      </button>
+        <button onClick={createTicket}>
+            Create Ticket
+        </button>
 
-      </div><hr />
+        </div>
+
+        <hr />
+    </>
+    )}
 
       <h2>All Tickets</h2>
 
@@ -205,6 +230,7 @@ function Dashboard() {
             <th>Description</th>
             <th>Status</th>
             <th>Priority</th>
+            <th>Assigned To</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -215,30 +241,49 @@ function Dashboard() {
               <td>{ticket.id}</td>
               <td>{ticket.title}</td>
               <td>{ticket.description}</td>
-              <td>
-                <select
-                  value={ticket.status}
-                  onChange={(e) =>
-                    updateStatus(
-                      ticket.id,
-                      e.target.value
-                    )
-                  }
-                >
-                  <option>Open</option>
-                  <option>In Progress</option>
-                  <option>Resolved</option>
-                </select>
-              </td>
-              <td>{ticket.priority}</td>
+                <td>
 
-              <td>
-                <button
-                  onClick={() => deleteTicket(ticket.id)}
+                {role !== "user" ? (
+
+                <select
+                    value={ticket.status}
+                    onChange={(e) =>
+                    updateStatus(
+                        ticket.id,
+                        e.target.value
+                    )
+                    }
                 >
-                  Delete
+                    <option>Open</option>
+                    <option>In Progress</option>
+                    <option>Resolved</option>
+                </select>
+
+                ) : (
+
+                <span>{ticket.status}</span>
+
+                )}
+
+                </td>
+                <td>{ticket.priority}</td>
+
+                <td>
+                {ticket.assigned_to || "Not Assigned"}
+                </td>
+
+            <td>
+
+            {role === "admin" && (
+                <button
+                onClick={() => deleteTicket(ticket.id)}
+                >
+                Delete
                 </button>
-              </td>
+            )}
+
+            </td>
+              
             </tr>
           ))}
         </tbody>

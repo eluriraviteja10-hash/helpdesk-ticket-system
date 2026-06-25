@@ -6,7 +6,10 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/" element={<Dashboard />} />
+
+      <Route path="/admin" element={<Dashboard />} />
+      <Route path="/agent" element={<Dashboard />} />
+      <Route path="/user" element={<Dashboard />} />
     </Routes>
   );
 }
