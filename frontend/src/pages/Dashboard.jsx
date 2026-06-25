@@ -320,18 +320,24 @@ function Dashboard() {
                 </select>
 
                 <button
-                    onClick={() =>
+                    onClick={() => {
+
+                        alert(
+                            "Selected Assistant ID: " +
+                            selectedAgents[ticket.id]
+                        );
+
                         assignTicket(
                             ticket.id,
                             Number(
                                 selectedAgents[ticket.id]
                             )
-                        )
-                    }
+                        );
+
+                    }}
                 >
                     Assign
                 </button>
-
                 </>
 
                 ) : (
