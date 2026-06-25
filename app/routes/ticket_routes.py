@@ -112,24 +112,8 @@ def delete_ticket(
 def assign_ticket(
     ticket_id: int,
     assignment: TicketAssign,
-    current_user_id: int,
     db: Session = Depends(get_db)
 ):
-
-    current_user = get_current_user(
-        current_user_id,
-        db
-    )
-
-    if not current_user:
-        return {
-            "message": "User not found"
-        }
-
-    if current_user.role != "admin":
-        return {
-            "message": "Access denied. Admin only."
-        }
 
     ticket = db.query(Ticket).filter(
         Ticket.id == ticket_id
@@ -150,7 +134,6 @@ def assign_ticket(
         "ticket_id": ticket.id,
         "assigned_to": ticket.assigned_to
     }
-
 @router.get("/agents/{agent_id}/tickets")
 def get_agent_tickets(
     agent_id: int,
