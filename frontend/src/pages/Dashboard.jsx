@@ -20,6 +20,7 @@ function Dashboard() {
   const [tickets, setTickets] = useState([]);
   const [stats, setStats] = useState(null);
   const [agents, setAgents] = useState([]);
+  const [selectedAgents, setSelectedAgents] = useState({});
 
   const loadTickets = async () => {
     try {
@@ -288,13 +289,18 @@ function Dashboard() {
 
                 {role === "admin" ? (
 
+                <>
                 <select
-                    value={ticket.assigned_to || ""}
+                    value={
+                        selectedAgents[ticket.id] ||
+                        ticket.assigned_to ||
+                        ""
+                    }
                     onChange={(e) =>
-                        assignTicket(
-                            ticket.id,
-                            Number(e.target.value)
-                        )
+                        setSelectedAgents({
+                            ...selectedAgents,
+                            [ticket.id]: e.target.value
+                        })
                     }
                 >
 
@@ -312,6 +318,21 @@ function Dashboard() {
                     ))}
 
                 </select>
+
+                <button
+                    onClick={() =>
+                        assignTicket(
+                            ticket.id,
+                            Number(
+                                selectedAgents[ticket.id]
+                            )
+                        )
+                    }
+                >
+                    Assign
+                </button>
+
+                </>
 
                 ) : (
 
