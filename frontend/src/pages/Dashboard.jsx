@@ -271,7 +271,35 @@ function Dashboard() {
                 <td>{ticket.priority}</td>
 
                 <td>
-                {ticket.assigned_to || "Not Assigned"}
+
+                {role === "admin" ? (
+
+                <select
+                    value={ticket.assigned_to || ""}
+                    onChange={(e) =>
+                        assignTicket(
+                            ticket.id,
+                            Number(e.target.value)
+                        )
+                    }
+                >
+
+                <option value="">
+                    Select Assistant
+                </option>
+
+                <option value="2">
+                    Assistant
+                </option>
+
+                </select>
+
+                ) : (
+
+                ticket.assigned_to || "Not Assigned"
+
+                )}
+
                 </td>
 
             <td>
