@@ -64,7 +64,7 @@ def login_user(user: UserLogin, db: Session = Depends(get_db)):
 @router.get("/assistants")
 def get_assistants(
     db: Session = Depends(get_db)
-):
+    ):
 
     assistants = db.query(User).filter(
         User.role == "assistant"
