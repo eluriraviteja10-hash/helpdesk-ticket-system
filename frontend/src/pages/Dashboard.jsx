@@ -7,7 +7,10 @@ import { useNavigate } from "react-router-dom";
 
 function Dashboard() {  
   const userName = localStorage.getItem("name");
-  const role = localStorage.getItem("role");
+    const role = (localStorage.getItem("role") || "")
+    .trim()
+    .toLowerCase(); 
+  console.log("ROLE =", role);
   const userId = localStorage.getItem("user_id");
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
@@ -138,13 +141,13 @@ function Dashboard() {
     <h2>
     Welcome, {userName} ({role})
     </h2>    
-<div
-  style={{
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center"
-  }}
->
+    <div
+    style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center"
+    }}
+    >
     <h1 className="title">
         Help Desk Ticket Management System
     </h1>
@@ -174,46 +177,45 @@ function Dashboard() {
       </div>
     )}
 
-    {role === "user" && (
+    {role?.trim().toLowerCase() === "user" && (
     <>
         <div className="form-card">
-        <h2>Create Ticket</h2>
+            <h2>Create Ticket</h2>
 
-        <input
-            type="text"
-            placeholder="Ticket Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-        />
+            <input
+                type="text"
+                placeholder="Ticket Title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+            />
 
-        <br />
-        <br />
+            <br />
+            <br />
 
-        <textarea
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-        />
+            <textarea
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+            />
 
-        <br />
-        <br />
+            <br />
+            <br />
 
-        <select
-            value={priority}
-            onChange={(e) => setPriority(e.target.value)}
-        >
-            <option>Low</option>
-            <option>Medium</option>
-            <option>High</option>
-        </select>
+            <select
+                value={priority}
+                onChange={(e) => setPriority(e.target.value)}
+            >
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+            </select>
 
-        <br />
-        <br />
+            <br />
+            <br />
 
-        <button onClick={createTicket}>
-            Create Ticket
-        </button>
-
+            <button onClick={createTicket}>
+                Create Ticket
+            </button>
         </div>
 
         <hr />
